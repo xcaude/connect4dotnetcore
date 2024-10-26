@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connect4", "connect4\connect4.csproj", "{87CAA6F5-D886-487F-A89D-C63E92915D71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connect4GameClient", "connect4GameClient\connect4GameClient.csproj", "{23C3C8FC-9298-4428-AB5E-28647B2ECF00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87CAA6F5-D886-487F-A89D-C63E92915D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87CAA6F5-D886-487F-A89D-C63E92915D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87CAA6F5-D886-487F-A89D-C63E92915D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87CAA6F5-D886-487F-A89D-C63E92915D71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C3C8FC-9298-4428-AB5E-28647B2ECF00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C3C8FC-9298-4428-AB5E-28647B2ECF00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C3C8FC-9298-4428-AB5E-28647B2ECF00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C3C8FC-9298-4428-AB5E-28647B2ECF00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
