@@ -1,6 +1,7 @@
 ﻿@page "/game"
 @inject HttpClient Http
 
+<link href="css/Game.css" rel="stylesheet" />
 <!-- This page is the Game page where the Connect4 grid is and the players will one after the other players their coin -->
 
 <div class="game-container">
@@ -54,11 +55,9 @@
             }
         }
     </div>
-
-    <button class="btn btn-danger reset-game-button" @onclick="ResetGame">Reset Game</button>
 </div>
 
-@using connect4GameClient.Models
+@using Connect4Game.Models
 
 @code {
     private GameStateModel gameState;
@@ -73,28 +72,33 @@
         gameState = await Http.GetFromJsonAsync<GameStateModel>("api/game");
     }
 
-    private async Task DropCoin(int column)
-    {
-        await Http.PostAsJsonAsync("api/game", column);
-        await LoadGameState();
-    }
-
     private async Task ResetGame()
     {
         await Http.DeleteAsync("api/game");
         await LoadGameState();
     }
 
+    private void DropCoin(int col)
+    {
+        // Logic to drop a coin in the specified column
+    }
+
+    private string GetWinnerMessage()
+    {
+        return $"{GetPlayerName(gameState.Winner)} wins!";
+    }
+
     private string GetPlayerName(int player)
     {
         return player == 1 ? "Red" : "Yellow";
     }
-}
 
-public class GameStateModel
-{
-    public int[][] Grid { get; set; }
-    public int CurrentPlayer { get; set; }
-    public int Winner { get; set; }
+    public class GameStateModel
+    {
+        public int[][] Grid { get; set; }
+        public int CurrentPlayer { get; set; }
+        public int Winner { get; set; }
+        public bool IsGameOver { get; set; }
+        public bool IsDraw { get; set; }
+    }
 }
-
