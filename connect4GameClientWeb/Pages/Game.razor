@@ -1,0 +1,100 @@
+﻿@page "/game"
+@inject HttpClient Http
+
+<!-- This page is the Game page where the Connect4 grid is and the players will one after the other players their coin -->
+
+<div class="game-container">
+    <h1 class="game-title">
+        <span class="red-text">Connect</span><span class="yellow-text">4</span><span class="red-text"> Game</span>
+    </h1>
+
+    <div class="game-grid">
+        @for (int row = 0; row < 6; row++)
+        {
+            <div class="game-row">
+                @for (int col = 0; col < 7; col++)
+                {
+                    <div class="game-cell" @onclick="() => DropCoin(col)">
+                        @if (gameState != null && gameState.Grid != null)
+                        {
+                            var cell = gameState.Grid[row][col];
+                            if (cell == 1)
+                            {
+                                <div class="game-coin red-coin"></div>
+                            }
+                            else if (cell == 2)
+                            {
+                                <div class="game-coin yellow-coin"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="game-status">
+        @if (gameState != null)
+        {
+            if (gameState.Winner == 1)
+            {
+                <p class="game-winner">Red wins!</p>
+            }
+            else if (gameState.Winner == 2)
+            {
+                <p class="game-winner">Yellow wins!</p>
+            }
+            else if (gameState.Winner == 3)
+            {
+                <p class="game-winner">It's a draw!</p>
+            }
+            else
+            {
+                <p class="game-turn">@GetPlayerName(gameState.CurrentPlayer)'s turn</p>
+            }
+        }
+    </div>
+
+    <button class="btn btn-danger reset-game-button" @onclick="ResetGame">Reset Game</button>
+</div>
+
+@using connect4GameClient.Models
+
+@code {
+    private GameStateModel gameState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadGameState();
+    }
+
+    private async Task LoadGameState()
+    {
+        gameState = await Http.GetFromJsonAsync<GameStateModel>("api/game");
+    }
+
+    private async Task DropCoin(int column)
+    {
+        await Http.PostAsJsonAsync("api/game", column);
+        await LoadGameState();
+    }
+
+    private async Task ResetGame()
+    {
+        await Http.DeleteAsync("api/game");
+        await LoadGameState();
+    }
+
+    private string GetPlayerName(int player)
+    {
+        return player == 1 ? "Red" : "Yellow";
+    }
+}
+
+public class GameStateModel
+{
+    public int[][] Grid { get; set; }
+    public int CurrentPlayer { get; set; }
+    public int Winner { get; set; }
+}
+
