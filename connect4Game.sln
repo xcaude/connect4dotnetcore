@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connect4", "connect4\connect4.csproj", "{87CAA6F5-D886-487F-A89D-C63E92915D71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connect4GameClient", "connect4GameClient\connect4GameClient.csproj", "{23C3C8FC-9298-4428-AB5E-28647B2ECF00}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.Tests", "Connect4Game.Tests\Connect4Game.Tests.csproj", "{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.ClientWeb", "Connect4Game.ClientWeb\Connect4Game.ClientWeb.csproj", "{463E0BE5-1432-4260-B252-F93DE8C0C8A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,5 +34,13 @@ Global
 		{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EEF1EFB-3BFB-4AF3-91F9-F49AE3D3F14A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EEF1EFB-3BFB-4AF3-91F9-F49AE3D3F14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EEF1EFB-3BFB-4AF3-91F9-F49AE3D3F14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EEF1EFB-3BFB-4AF3-91F9-F49AE3D3F14A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{463E0BE5-1432-4260-B252-F93DE8C0C8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{463E0BE5-1432-4260-B252-F93DE8C0C8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{463E0BE5-1432-4260-B252-F93DE8C0C8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{463E0BE5-1432-4260-B252-F93DE8C0C8A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

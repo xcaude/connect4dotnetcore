@@ -1,0 +1,82 @@
+﻿@page "/games"
+@using Blazored.Modal
+@using Blazored.Modal.Services
+@using Connect4Game.ClientWeb.Data
+@using Connect4Game.ClientWeb.Data.Services
+@using Connect4Game.ClientWeb.Models
+@using System.Net.Http.Json
+
+@inject GameService Service
+@inject HttpClient Http
+
+
+<link href="css/Games.css" rel="stylesheet" />
+
+<div class="games-container">
+    <h1 class="games-title">
+        <span class="red-text">Connect</span><span class="yellow-text">4</span><span class="red-text"> Games</span>
+    </h1>
+
+    <EditForm Model="@gameModel" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Game Name</label>
+            <InputText id="name" class="form-control" @bind-Value="gameModel.Name" />
+        </div>
+
+        <button type="submit" class="btn btn-primary create-game-button">Create Game</button>
+    </EditForm>
+
+    <div class="games-list">
+        @if (games != null && games.Count > 0)
+        {
+            <ul>
+                @foreach (var game in games)
+                {
+                    <li class="game-item">
+                        <span>@game.Name</span>
+                        <button class="btn btn-danger delete-game-button" @onclick="() => DeleteGame(game)">Delete</button>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No games available.</p>
+        }
+    </div>
+</div>
+
+@code {
+    private List<GameModel> games;
+    private GameModel gameModel = new GameModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadGames();
+    }
+
+    private async Task LoadGames()
+    {
+        games = await Http.GetFromJsonAsync<List<GameModel>>("api/games");
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync("api/games", gameModel);
+        gameModel = new GameModel();
+        await LoadGames();
+    }
+
+    private async Task DeleteGame(GameModel game)
+    {
+        await Http.DeleteAsync($"api/games/{game.Name}");
+        await LoadGames();
+    }
+    public class GameModel
+    {
+        public string Name { get; set; }
+    }
+}
