@@ -1,11 +1,10 @@
+// filepath: /c:/Users/thiba/connect4dotnetcore/connect4/Program.cs
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-/*builder.Services.AddControllers();
-builder.Services.AddDbContext<Connect4DbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));*/
-
+builder.Services.AddRazorComponents(); // Ensure this line is correct
+builder.Services.AddRazorPages(); // Add this line to register Razor Pages
+builder.Services.AddServerSideBlazor(); // Add this line to register Blazor Server
 
 var app = builder.Build();
 
@@ -16,8 +15,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//app.UseAuthorization();
-//app.MapControllers();
-app.MapGet("/", () => "Hello World!");
+app.UseStaticFiles();
+app.UseRouting(); // Ensure routing is enabled
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapBlazorHub(); // Add this line to map Blazor Hub
+    endpoints.MapFallbackToPage("/_Host"); // Ensure this line points to the correct fallback page
+});
 
 app.Run();
