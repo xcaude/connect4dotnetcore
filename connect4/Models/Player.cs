@@ -1,9 +1,10 @@
-namespace Connect4Game.Models
+using Microsoft.AspNetCore.Identity;
+namespace Connect4.Models
 {
     /// <summary>
     /// Represents a player in the Connect 4 game.
     /// </summary>
-    public class Player
+    public class Player : IdentityUser
     {
         /// <summary>
         /// Gets or sets the login of the player.

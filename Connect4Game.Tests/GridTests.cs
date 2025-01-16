@@ -1,5 +1,5 @@
 using Xunit;
-using Connect4Game.Models;
+using Connect4.Models;
 
 namespace Connect4Game.Tests
 {
@@ -13,7 +13,7 @@ namespace Connect4Game.Tests
 
             grid.DropToken(0, token);
 
-            Assert.Equal(token, grid.Cells[5, 0].Token);
+            Assert.Equal(token, grid.Cells[5 * grid.Columns + 0].Token);
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace Connect4Game.Tests
             {
                 for (int row = 0; row < grid.Rows; row++)
                 {
-                    grid.Cells[row, col].Token = new Token { Color = "Red" };
+                    grid.Cells[row * grid.Columns + col].Token = new Token { Color = "Red" };
                 }
             }
 

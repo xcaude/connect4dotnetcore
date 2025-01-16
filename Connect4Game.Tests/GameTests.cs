@@ -1,5 +1,5 @@
 using Xunit;
-using Connect4Game.Models;
+using Connect4.Models;
 
 namespace Connect4Game.Tests
 {

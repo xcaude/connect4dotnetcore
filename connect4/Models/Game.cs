@@ -1,18 +1,26 @@
-namespace Connect4Game.Models
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+
+namespace Connect4.Models
 {
     /// <summary>
     /// Represents a game of Connect 4.
     /// </summary>
     public class Game
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets or sets the host of the game.
         /// </summary>
         public Player Host { get; set; }  = new Player();
+        public required string HostId { get; set; }
         /// <summary>
         /// Gets or sets the guest of the game.
         /// </summary>
         public Player? Guest { get; set; }
+        public string GuestId { get; set; }
+
+        public required string Name { get; set; }
         /// <summary>
         /// Gets or sets the grid of the game.
         /// </summary>
@@ -21,10 +29,14 @@ namespace Connect4Game.Models
         /// Gets or sets the status of the game.
         /// </summary>
         public string Status { get; set; } = "Awaiting Guest";
+
+        public required string CurrentTurnId { get; set; }
         /// <summary>
         /// Gets or sets the current turn of the game.
         /// </summary>
         public Player? CurrentTurn { get; set; } 
+
+        public Player? Winner { get; set; }
 
         /// <summary>
         /// Starts the game and initializes the first player to guest.

@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Connect4Game.Models\Connect4Game.Models.csproj" />
+    <ProjectReference Include="..\connect4\connect4.csproj" />
   </ItemGroup>
 
 </Project>
