@@ -1,0 +1,56 @@
+﻿@page "/addGame"
+@using Blazored.Modal
+@using Blazored.Modal.Services
+@using Connect4Game.ClientWeb.Data
+@using Connect4Game.ClientWeb.Data.Services
+@using Connect4Game.ClientWeb.Models
+@using System.Net.Http.Json
+@inject GameService Service
+@inject HttpClient Http
+
+<link href="css/Game.css" rel="stylesheet" />
+
+<div class="game-container">
+    <h1 class="game-title">
+        <span class="red-text">Add</span><span class="yellow-text"> Game</span>
+    </h1>
+
+    <EditForm Model="@game" OnValidSubmit="FormSubmitted">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="name">Game Name</label><br />
+            <InputText class="form-control" id="name" @bind-Value=game.Name />
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="host">Host</label><br />
+            <InputText class="form-control" id="host" @bind-Value=game.Host.Name />
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="guest">Guest</label><br />
+            <InputText class="form-control" id="guest" @bind-Value=game.Guest.Name />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="button" @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+    </EditForm>
+</div>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = null!;
+
+    GameResource game = new() { Name = null!, Host = new Player(), Guest = new Player() };
+
+    private async void FormSubmitted()
+    {
+        await Service.AddGameAsync(game);
+
+        await BlazoredModal.CloseAsync(ModalResult.Ok<GameResource>(game));
+    }
+
+    private async Task Cancel()
+    {
+        await BlazoredModal.CancelAsync();
+    }
+}

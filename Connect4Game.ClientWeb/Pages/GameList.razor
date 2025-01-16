@@ -1,7 +1,13 @@
 ﻿@page "/games"
-@inject HttpClient Http
-@using Connect4Game.Models
+@using Blazored.Modal
+@using Blazored.Modal.Services
+@using Connect4Game.ClientWeb.Data
+@using Connect4Game.ClientWeb.Data.Services
+@using Connect4Game.ClientWeb.Models
 @using System.Net.Http.Json
+
+@inject GameService Service
+@inject HttpClient Http
 
 
 <link href="css/Games.css" rel="stylesheet" />

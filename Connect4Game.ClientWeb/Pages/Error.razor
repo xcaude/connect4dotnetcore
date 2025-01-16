@@ -1,6 +1,6 @@
 ﻿@page "/Error"
 @using System.Diagnostics
-@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.DependencyInjection
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Error</PageTitle>
@@ -26,13 +26,10 @@
     and restarting the app.
 </p>
 
-@code{
-    [CascadingParameter]
-    private IHttpContextAccessor? HttpContext { get; set; }
+@code {
+    [Parameter]
+    public bool ShowRequestId { get; set; }
 
-    private string? RequestId { get; set; }
-    private bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-
-    protected override void OnInitialized() =>
-        RequestId = Activity.Current?.Id ?? HttpContext?.HttpContext?.TraceIdentifier;
+    [Parameter]
+    public string RequestId { get; set; }
 }

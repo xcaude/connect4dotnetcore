@@ -13,5 +13,12 @@ public class GameResource
         [Required]
         public string Name { get; set; }
 
+        public string Host { get; set; }
+
+        public string Guest { get; set; }
+
+
+
+
 
 }

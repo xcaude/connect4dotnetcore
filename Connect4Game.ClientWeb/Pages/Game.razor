@@ -1,8 +1,12 @@
 ﻿@page "/game"
+@using Blazored.Modal
+@using Blazored.Modal.Services
+@using Connect4Game.ClientWeb.Data.Services
+@using Connect4Game.ClientWeb.Models
+@inject GameService Service
 @inject HttpClient Http
 
 <link href="css/Game.css" rel="stylesheet" />
-<!-- This page is the Game page where the Connect4 grid is and the players will one after the other players their coin -->
 
 <div class="game-container">
     <h1 class="game-title">
@@ -57,7 +61,7 @@
     </div>
 </div>
 
-@using Connect4Game.Models
+@using Connect4Game.ClientWeb.Models
 
 @code {
     private GameStateModel gameState;

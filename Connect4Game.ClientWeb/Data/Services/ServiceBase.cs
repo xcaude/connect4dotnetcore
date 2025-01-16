@@ -6,7 +6,7 @@ namespace Connect4Game.ClientWeb.Data.Services;
 
 public class ServiceBase<ResourceType, ListType, SingleType>(HttpClient Client, string controller)
 {
-    private const string BASE_URL = "http://localhost:5114/api/";
+    private const string BASE_URL = "http://localhost:5034/api/";
     private static readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true };
 
     private string Endpoint => $"{BASE_URL}{controller}";
