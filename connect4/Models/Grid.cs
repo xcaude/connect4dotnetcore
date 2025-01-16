@@ -1,4 +1,5 @@
 using System.Data.Common;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Connect4.Models
 {   
@@ -36,16 +37,18 @@ namespace Connect4.Models
         /// </summary>
         /// <param name="column">Column in which the token will be droped</param>
         /// <param name="token">Token to drop</param>
-        public void DropToken(int column, Token token)
+        public bool DropToken(int column, Token token)
         {
+
             for (int row = Rows - 1; row >= 0; row--)
             {
                 if (Cells[row * Columns + column].Token == null)
                 {
                     Cells[row * Columns + column].Token = token;
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
         /// <summary>
         /// Checks if the grid is full.

@@ -72,7 +72,8 @@ public class PlayersController : ControllerBase
 
         var claims = new []
         {
-            new Claim(JwtRegisteredClaimNames.Sub ,user.UserName)
+            new Claim(JwtRegisteredClaimNames.Sub , user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

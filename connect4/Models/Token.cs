@@ -5,6 +5,7 @@ namespace Connect4.Models
     /// </summary>
     public class Token
     {
+
         public int Id { get; set; }
         /// <summary>
         /// Gets or sets the color of the token.

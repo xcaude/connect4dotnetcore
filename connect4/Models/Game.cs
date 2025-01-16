@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+
 namespace Connect4.Models
 {
     /// <summary>
@@ -17,6 +19,8 @@ namespace Connect4.Models
         /// </summary>
         public Player? Guest { get; set; }
         public string GuestId { get; set; }
+
+        public required string Name { get; set; }
         /// <summary>
         /// Gets or sets the grid of the game.
         /// </summary>
@@ -31,6 +35,8 @@ namespace Connect4.Models
         /// Gets or sets the current turn of the game.
         /// </summary>
         public Player? CurrentTurn { get; set; } 
+
+        public Player? Winner { get; set; }
 
         /// <summary>
         /// Starts the game and initializes the first player to guest.
