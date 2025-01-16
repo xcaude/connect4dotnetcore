@@ -109,8 +109,6 @@
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/System.Text.Json.dll
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/runtimes/linux-musl-s390x/native/libe_sqlite3.so
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
-/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Models.dll
-/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Models.pdb
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Humanizer.dll
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.Build.Locator.dll
@@ -193,3 +191,18 @@
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/MinimalApis.Extensions.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/MiniValidation.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

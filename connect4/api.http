@@ -1,1 +1,31 @@
-GET http://localhost:5034/
+GET http://localhost:5034/api/Players
+
+###
+POST http://localhost:5034/api/Players/authenticate
+Content-Type: application/json
+
+{
+    "login": "admin",
+    "password": "Admin64%"
+}
+
+###
+POST http://localhost:5034/api/Players/register
+Content-Type: application/json
+
+{
+    "login": "admin",
+    "password": "Admin64%",
+}
+
+### 
+GET http://localhost:5034/api/games
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTczNzA3ODgyNSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDM0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDM0In0.inMG6UlhBQ2cwHm5TY9tZDCb9WTPDo_bBE5yRsxzLFc
+
+###
+PUT http://localhost:5034/api/games
+Content-Type: application/json
+{
+    "id" : 
+    "HostId" : d7585c8e-e575-4fdb-b04a-7be46ad73422
+}

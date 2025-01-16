@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connect4", "connect4\connec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connect4GameClient", "connect4GameClient\connect4GameClient.csproj", "{23C3C8FC-9298-4428-AB5E-28647B2ECF00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.Models", "Connect4Game.Models\Connect4Game.Models.csproj", "{BE8559E0-4C25-4EDF-91D1-69D1467F7E81}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.Tests", "Connect4Game.Tests\Connect4Game.Tests.csproj", "{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}"
 EndProject
 Global

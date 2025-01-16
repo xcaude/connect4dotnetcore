@@ -1,10 +1,13 @@
-namespace Connect4Game.Models
+using System.Data.Common;
+
+namespace Connect4.Models
 {   
     /// <summary>
     /// Represents a cell in the Connect 4 grid.
     /// </summary>
     public class Grid
     {
+        public int Id { get; set; }
         /// <summary>
         /// Gets or sets the number of rows in the grid.
         /// </summary>
@@ -16,18 +19,15 @@ namespace Connect4Game.Models
         /// <summary>
         /// Gets or sets the cells in the grid.
         /// </summary>
-        public Cell[,] Cells { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Grid"/> class.
-        /// </summary>
+        public List<Cell> Cells { get; set; } = new List<Cell>();
+
         public Grid()
         {
-            Cells = new Cell[Rows, Columns];
             for (int row = 0; row < Rows; row++)
             {
                 for (int col = 0; col < Columns; col++)
                 {
-                    Cells[row, col] = new Cell { Row = row, Column = col };
+                    Cells.Add(new Cell { Row = row, Column = col, Grid = this });
                 }
             }
         }
@@ -40,9 +40,9 @@ namespace Connect4Game.Models
         {
             for (int row = Rows - 1; row >= 0; row--)
             {
-                if (Cells[row, column].Token == null)
+                if (Cells[row * Columns + column].Token == null)
                 {
-                    Cells[row, column].Token = token;
+                    Cells[row * Columns + column].Token = token;
                     break;
                 }
             }
@@ -55,7 +55,7 @@ namespace Connect4Game.Models
         {
             for (int col = 0; col < Columns; col++)
             {
-                if (Cells[0, col].Token == null)
+                if (Cells[col].Token == null)
                 {
                     return false;
                 }
@@ -83,7 +83,7 @@ namespace Connect4Game.Models
 
                 for (int col = 0; col < Columns; col++)
                 {
-                    var currentToken = Cells[row, col].Token;
+                    var currentToken = Cells[row * Columns + col].Token;
 
                     if (currentToken != null && currentToken.Color == lastColor)
                     {
@@ -97,7 +97,7 @@ namespace Connect4Game.Models
                     else
                     {
                         count = 1;
-                        lastColor = currentToken?.Color;
+                        lastColor = currentToken?.Color!;
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace Connect4Game.Models
 
                 for (int row = 0; row < Rows; row++)
                 {
-                    var currentToken = Cells[row, col].Token;
+                    var currentToken = Cells[row * Columns + col].Token;
 
                     if (currentToken != null && currentToken.Color == lastColor)
                     {
@@ -130,7 +130,7 @@ namespace Connect4Game.Models
                     else
                     {
                         count = 1;
-                        lastColor = currentToken?.Color;
+                        lastColor = currentToken?.Color!;
                     }
                 }
             }
@@ -147,10 +147,10 @@ namespace Connect4Game.Models
             {
                 for (int col = 0; col < Columns - 3; col++)
                 {
-                    if (Cells[row, col].Token != null &&
-                        Cells[row, col].Token.Color == Cells[row + 1, col + 1].Token?.Color &&
-                        Cells[row, col].Token.Color == Cells[row + 2, col + 2].Token?.Color &&
-                        Cells[row, col].Token.Color == Cells[row + 3, col + 3].Token?.Color)
+                    if (Cells[row * Columns + col].Token != null &&
+                        Cells[(row + 1) * Columns + (col + 1)].Token?.Color == Cells[row * Columns + col].Token.Color &&
+                        Cells[(row + 2) * Columns + (col + 2)].Token?.Color == Cells[row * Columns + col].Token.Color &&
+                        Cells[(row + 3) * Columns + (col + 3)].Token?.Color == Cells[row * Columns + col].Token.Color)
                     {
                         Console.WriteLine($"Diagonal win (positive slope) found starting at ({row}, {col})");
                         return true;
@@ -162,10 +162,10 @@ namespace Connect4Game.Models
             {
                 for (int col = 3; col < Columns; col++)
                 {
-                    if (Cells[row, col].Token != null &&
-                        Cells[row, col].Token.Color == Cells[row + 1, col - 1].Token?.Color &&
-                        Cells[row, col].Token.Color == Cells[row + 2, col - 2].Token?.Color &&
-                        Cells[row, col].Token.Color == Cells[row + 3, col - 3].Token?.Color)
+                    if (Cells[row * Columns + col].Token != null &&
+                        Cells[(row + 1) * Columns + (col - 1)].Token?.Color == Cells[row * Columns + col].Token.Color &&
+                        Cells[(row + 2) * Columns + (col - 2)].Token?.Color == Cells[row * Columns + col].Token.Color &&
+                        Cells[(row + 3) * Columns + (col - 3)].Token?.Color == Cells[row * Columns + col].Token.Color)
                     {
                         Console.WriteLine($"Diagonal win (negative slope) found starting at ({row}, {col})");
                         return true;
@@ -183,7 +183,7 @@ namespace Connect4Game.Models
             {
                 for (int col = 0; col < Columns; col++)
                 {
-                    var token = Cells[row, col].Token;
+                    var token = Cells[row * Columns + col].Token;
                     if (token == null)
                     {
                         Console.Write("x");
