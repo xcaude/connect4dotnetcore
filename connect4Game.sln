@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connect4GameClient", "conne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.Tests", "Connect4Game.Tests\Connect4Game.Tests.csproj", "{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.Domain", "Connect4Game.Domain\Connect4Game.Domain.csproj", "{C8868083-8D39-45DF-8C38-DA94064678ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.Infrastructure", "Connect4Game.Infrastructure\Connect4Game.Infrastructure.csproj", "{02BE4D66-E31A-4242-A5B9-6735AB85E99E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game.Common", "Connect4Game.Common\Connect4Game.Common.csproj", "{141CA8F7-A1A2-42A6-9F2E-3ED92066E3B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,5 +40,17 @@ Global
 		{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95DE8A66-B23F-422C-A1D3-8D217F6B91DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8868083-8D39-45DF-8C38-DA94064678ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8868083-8D39-45DF-8C38-DA94064678ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8868083-8D39-45DF-8C38-DA94064678ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8868083-8D39-45DF-8C38-DA94064678ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02BE4D66-E31A-4242-A5B9-6735AB85E99E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02BE4D66-E31A-4242-A5B9-6735AB85E99E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02BE4D66-E31A-4242-A5B9-6735AB85E99E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02BE4D66-E31A-4242-A5B9-6735AB85E99E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{141CA8F7-A1A2-42A6-9F2E-3ED92066E3B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{141CA8F7-A1A2-42A6-9F2E-3ED92066E3B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{141CA8F7-A1A2-42A6-9F2E-3ED92066E3B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{141CA8F7-A1A2-42A6-9F2E-3ED92066E3B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

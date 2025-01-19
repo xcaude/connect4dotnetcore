@@ -1,11 +1,13 @@
-using Connect4.Data;
+using Connect4Game.Infrastructure.Context;
+using Connect4Game.Common.Dto;
+using Connect4Game.Domain.Models;
 
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
-using Connect4.Models;
+
 using Microsoft.VisualBasic;
 using System.Reflection.Metadata;
 using Microsoft.OpenApi.Models;
@@ -91,7 +93,6 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var playerController = scope.ServiceProvider.GetRequiredService<UserManager<Player>>();
-    await InitializeUsersAsync(playerController);  // Initialize users
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -105,37 +106,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MigrateDb();
 
 app.Run();
 
-
-async Task InitializeUsersAsync(UserManager<Player> userManager)
-{
-    var players = new List<Player>
-    {
-        new Player { UserName = "player1", Email = "player1@example.com" },
-        new Player { UserName = "player2", Email = "player2@example.com" },
-        new Player { UserName = "player3", Email = "player3@example.com" }
-    };
-
-    foreach (var player in players)
-    {
-        // Check if the player already exists
-        var existingPlayer = await userManager.FindByNameAsync(player.UserName);
-        if (existingPlayer == null)
-        {
-            // Player does not exist, create the player
-            var result = await userManager.CreateAsync(player, "password1");  // Set a default password
-            if (!result.Succeeded)
-            {
-                // Log errors or handle accordingly
-                Console.WriteLine($"Error creating player {player.UserName}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
-            }
-        }
-        else
-        {
-            Console.WriteLine($"Player {player.UserName} already exists.");
-        }
-    }
-}

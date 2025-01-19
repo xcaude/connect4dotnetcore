@@ -206,3 +206,9 @@
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Common.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Domain.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Infrastructure.dll
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Domain.pdb
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Infrastructure.pdb
+/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Common.pdb

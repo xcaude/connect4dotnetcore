@@ -1,9 +1,11 @@
-using Connect4.Data;
+using Connect4Game.Common.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Connect4.Models;
+using Connect4Game.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Connect4Game.Infrastructure.Context;
+
 
 
 [ApiController]
@@ -56,7 +58,8 @@ public class GamesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateGame([FromBody] CreateGameDto dto)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Extract user ID from JWT
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+        Console.WriteLine(userId);
         var host = await _context.Players.FindAsync(userId);
         if (host == null) return NotFound("Host not found");
 
@@ -67,7 +70,7 @@ public class GamesController : ControllerBase
             Name = dto.Name,
             Status = "Awaiting Guest",
             CurrentTurnId = userId!,
-            Grid = new Grid()
+            Grid = new string('0', 6 * 7)
         };
 
         _context.Games.Add(game);
@@ -115,36 +118,17 @@ public class GamesController : ControllerBase
 
             if (game.CurrentTurn != user)
                 return Forbid("It is not your turn.");
-            Token token = new Token();
-            token.Color = user == game.Host ? "Red" : "Yellow";
-            if (!game.Grid.DropToken(request.Column, token))
-                return BadRequest("Invalid move. Column may be full or out of range.");
-
-            // Check for win or draw
-            if (game.Grid.CheckWinCondition())
-            {
-                game.Status = "Finished";
-                game.Winner = game.Guest == user ? game.Guest : game.Host;
-            }
-            else if (game.Grid.IsFull())
-            {
-                game.Status = "Finished";
-                game.Winner = null; 
-            }
-            else
-            {
-                game.CurrentTurn = game.Host == user ? game.Guest : game.Host;
-            }
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new
+            game.PlayTurn(user, request.Column);
+            
+            var gameDto = new
             {
                 game.Id,
                 game.Grid,
                 game.Status,
                 game.Winner
-            });
+            };
+
+            return Ok(gameDto);
         }
 
         // 6. Get Game Details

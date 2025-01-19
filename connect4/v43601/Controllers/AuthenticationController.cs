@@ -4,12 +4,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
-using Connect4.Data;
-using Connect4.Models;
+using Connect4Game.Domain.Models;
+using Connect4Game.Common.Dto;
+using Connect4Game.Infrastructure.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -69,11 +71,12 @@ public class PlayersController : ControllerBase
     private string GenerateJwtToken(Player user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-
-        var claims = new []
+        Console.WriteLine(user.Id);
+        var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub , user.UserName),
-            new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString())
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Name, user.UserName)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -86,8 +89,7 @@ public class PlayersController : ControllerBase
             signingCredentials: signin
         );
         string tokenvalue = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
-        Console.WriteLine(BitConverter.ToString(Encoding.UTF8.GetBytes(tokenvalue)));
-        Console.WriteLine($"Generated Token: {tokenvalue}");
+       
 
         return tokenvalue;
     }
