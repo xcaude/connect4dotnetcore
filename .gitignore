@@ -1,4 +1,6 @@
 # .NET Core
+*/bin/
+*/obj/
 bin/
 obj/
 *.db
@@ -71,3 +73,4 @@ $RECYCLE.BIN/
 
 # Mac
 .DS_Store
+

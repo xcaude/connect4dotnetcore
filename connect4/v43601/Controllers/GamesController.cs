@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Connect4Game.Infrastructure.Context;
+using Connect4Game.Common.DTOs;
 
 
 
@@ -26,13 +27,21 @@ public class GamesController : ControllerBase
         {
             var games = await _context.Games
                 .Where(g => g.Status == "Awaiting Guest")
-                .Select(g => new { g.Id, g.Name, g.Host })
+                .Select(g => new ListedGameDto
+                { 
+                    Id = g.Id,
+                    Status = g.Status,
+                    Name = g.Name,
+                    Host = g.Host.UserName!,
+                    Guest = g.Guest != null ? g.Guest.UserName : "Awaiting Guest"
+                })
                 .ToListAsync();
 
             return Ok(games);
         }
-
-// 4. List My Games
+    
+    // This Endpoint wont be useful
+    /* 
     [HttpGet("my")]
     public async Task<IActionResult> ListMyGames()
         {
@@ -40,20 +49,21 @@ public class GamesController : ControllerBase
             var user = await _context.Players.FindAsync(userId);
             if (user == null)
                 return Unauthorized();
-
+            // contains the games where the user is host or guest or that are awaiting guest
             var games = await _context.Games
-                .Where(g => g.Host == user || g.Guest == user)
-                .Select(g => new
-                {
-                    g.Id,
-                    g.Status,
-                    Opponent = g.Host == user ? g.Guest : g.Host,
-                    YourTurn = g.CurrentTurn == user
-                })
-                .ToListAsync();
-
+            .Where(g => g.HostId == userId || g.GuestId == userId || g.Status == "Awaiting Guest")
+            .Select(g => new ListedGameDto
+            {
+                Id = g.Id,
+                Status = g.Status,
+                Name = g.Name,
+                Host = g.Host.UserName!,
+                Guest = g.Guest != null ? g.Guest.UserName : "Awaiting Guest"
+            })
+            .ToListAsync();
             return Ok(games);
         }    
+    */
     
     [HttpPost]
     public async Task<IActionResult> CreateGame([FromBody] CreateGameDto dto)
@@ -75,8 +85,7 @@ public class GamesController : ControllerBase
 
         _context.Games.Add(game);
         await _context.SaveChangesAsync();
-
-        return Ok(game);
+        return Ok();
     }
 
     [HttpPost("{gameId}/join")]
@@ -109,7 +118,7 @@ public class GamesController : ControllerBase
             if (user == null)
                 return Unauthorized();
 
-            var game = await _context.Games.Include(g => g.Grid).FirstOrDefaultAsync(g => g.Id == gameId);
+            var game = await _context.Games.FindAsync(gameId);
             if (game == null)
                 return NotFound();
 
@@ -118,36 +127,23 @@ public class GamesController : ControllerBase
 
             if (game.CurrentTurn != user)
                 return Forbid("It is not your turn.");
-            game.PlayTurn(user, request.Column);
-            
-            var gameDto = new
-            {
-                game.Id,
-                game.Grid,
-                game.Status,
-                game.Winner
-            };
-
-            return Ok(gameDto);
+            if(game.PlayTurn(user, request.Column)){
+                await _context.SaveChangesAsync();
+                return Ok(new GridDto {
+                Grid = game.Grid
+                });
+            }
+            return Ok("Invalid move");
         }
 
         // 6. Get Game Details
         [HttpGet("{gameId}")]
         public async Task<IActionResult> GetGameDetails(int gameId)
         {
-            var game = await _context.Games.Include(g => g.Grid).FirstOrDefaultAsync(g => g.Id == gameId);
+            var game = await _context.Games.FindAsync(gameId);
             if (game == null)
                 return NotFound();
 
-            return Ok(new
-            {
-                game.Id,
-                game.Host,
-                game.Guest,
-                game.Status,
-                game.Grid,
-                game.CurrentTurn,
-                game.Winner
-            });
+            return Ok(game);
         }
 }

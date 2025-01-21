@@ -67,7 +67,7 @@ namespace Connect4Game.Domain.Models
                 StartGame();
             }
         }
-        public void PlayTurn(Player player, int column)
+        public bool PlayTurn(Player player, int column)
         {
             if (Status == "In Progress" && player == CurrentTurn)
             {
@@ -86,7 +86,10 @@ namespace Connect4Game.Domain.Models
                 {
                     CurrentTurn = CurrentTurn == Host ? Guest : Host;
                 }
+                return true;
             }
+            return false;
+
         }
         private void DropToken(int column, char tokenColor)
         {
