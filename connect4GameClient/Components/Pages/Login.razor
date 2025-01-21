@@ -1,0 +1,77 @@
+@page "/login"
+@using System.Net.Http
+@using System.Net.Http.Headers
+@using System.Text.Json
+@using System.Text
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<h3>Login</h3>
+
+<div>
+    <label>Login:</label>
+    <input @bind="login" />
+</div>
+<div>
+    <label>Password:</label>
+    <input type="password" @bind="password" />
+</div>
+<button @onclick="Authenticate">Login</button>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p style="color:red">@errorMessage</p>
+}
+
+@code {
+    private string login;
+    private string password;
+    private string errorMessage;
+
+    private async Task Authenticate()
+    {
+        errorMessage = string.Empty;
+
+        var loginDto = new { Login = login, Password = password };
+        var jsonContent = new StringContent(JsonSerializer.Serialize(loginDto), Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:5034/api/Players/authenticate")
+        {
+            Content = jsonContent
+        };
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        try
+        {
+            var response = await Http.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var token = JsonSerializer.Deserialize<JwtToken>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                // Store the token in local storage
+                await JS.InvokeVoidAsync("localStorage.setItem", "jwtToken", token.Token);
+
+                // Redirect to the game list page
+                NavigationManager.NavigateTo("/games");
+            }
+            else
+            {
+                errorMessage = "Invalid login or password";
+                Console.WriteLine($"Error: {response.ReasonPhrase}");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred during authentication.";
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+
+    private class JwtToken
+    {
+        public string Token { get; set; }
+    }
+}

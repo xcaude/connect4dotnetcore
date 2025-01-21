@@ -1,4 +1,4 @@
-namespace Connect4Game.Common.DTOs
+namespace Connect4Game.Common.Dto
 {
     public class ListedGameDto
     {

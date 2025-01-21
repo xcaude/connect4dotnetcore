@@ -1,0 +1,117 @@
+@page "/games"
+@using System.Net.Http
+@using System.Net.Http.Headers
+@using System.Text.Json
+@using System.Text
+@using Connect4Game.Domain.Models
+@using Connect4Game.Common.Dto
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<h3>Game List</h3>
+
+<div style="display: flex;">
+    <div style="flex: 1;">
+        @if (games == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var game in games)
+                {
+                    <li>
+                        @game.Name - @game.Status - Host: @game.Host - Guest: @game.Guest
+                        <button @onclick="() => PlayGame(game.Id)">Play</button>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+    <div style="flex: 1; margin-left: 20px;">
+        <h3>Register Game</h3>
+        <div>
+            <label>Name:</label>
+            <input @bind="newGameName" />
+        </div>
+        <button @onclick="RegisterGame">Register</button>
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <p style="color:red">@errorMessage</p>
+        }
+    </div>
+</div>
+
+@code {
+    private List<ListedGameDto> games;
+    private string newGameName;
+    private string jwtToken;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        jwtToken = await JS.InvokeAsync<string>("localStorage.getItem", "jwtToken");
+        await LoadGames();
+    }
+
+    private async Task LoadGames()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:5034/api/games");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+        var response = await Http.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            games = JsonSerializer.Deserialize<List<ListedGameDto>>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        else
+        {
+            Console.WriteLine($"Error: {response.ReasonPhrase}");
+        }
+    }
+
+    private async Task RegisterGame()
+    {
+        errorMessage = string.Empty;
+
+        var gameData = new CreateGameDto { Name = newGameName };
+        var jsonContent = new StringContent(JsonSerializer.Serialize(gameData), Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:5034/api/games")
+        {
+            Content = jsonContent
+        };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        try
+        {
+            var response = await Http.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Reload the games list after successful registration
+                await LoadGames();
+                newGameName = string.Empty; // Reset the form
+            }
+            else
+            {
+                errorMessage = "Failed to register game";
+                Console.WriteLine($"Error: {response.ReasonPhrase}");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred during game registration.";
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+
+    private void PlayGame(int gameId)
+    {
+        NavigationManager.NavigateTo($"/game/{gameId}");
+    }
+}

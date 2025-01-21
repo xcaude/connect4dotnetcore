@@ -1,0 +1,112 @@
+@page "/game/{gameId:int}"
+@using System.Net.Http
+@using System.Net.Http.Headers
+@using System.Text.Json
+@using System.Text
+@using Connect4Game.Domain.Models
+@using Connect4Game.Common.Dto
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<h3>Connect4 Game</h3>
+
+@if (game == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        <p>Game: @game.Name</p>
+        <p>Status: @game.Status</p>
+        <p>Host: @game.Host.UserName</p>
+        <p>Guest: @game.Guest?.UserName ?? "Awaiting Guest"</p>
+        <p>Current Turn: @game.CurrentTurn.UserName</p>
+    </div>
+    <div>
+        @for (int row = 0; row < game.Grid.Rows; row++)
+        {
+            <div>
+                @for (int col = 0; col < game.Grid.Columns; col++)
+                {
+                    var cell = game.Grid.Cells.First(c => c.Row == row && c.Column == col);
+                    <button @onclick="() => PlayTurn(col)">
+                        @cell.Token?.Color ?? "Empty"
+                    </button>
+                }
+            </div>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <p style="color:red">@errorMessage</p>
+    }
+}
+
+@code {
+    [Parameter] public int gameId { get; set; }
+    private Game game;
+    private string jwtToken;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        jwtToken = await JS.InvokeAsync<string>("localStorage.getItem", "jwtToken");
+        await LoadGameDetails();
+    }
+
+    private async Task LoadGameDetails()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:5034/api/games/{gameId}");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+        var response = await Http.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            game = JsonSerializer.Deserialize<Game>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        else
+        {
+            Console.WriteLine($"Error: {response.ReasonPhrase}");
+        }
+    }
+
+    private async Task PlayTurn(int column)
+    {
+        errorMessage = string.Empty;
+
+        var playTurnRequest = new PlayTurnRequest { Column = column };
+        var jsonContent = new StringContent(JsonSerializer.Serialize(playTurnRequest), Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://localhost:5034/api/games/{gameId}/play")
+        {
+            Content = jsonContent
+        };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        try
+        {
+            var response = await Http.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var gridDto = JsonSerializer.Deserialize<GridDto>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                game.Grid = JsonSerializer.Deserialize<Grid>(gridDto.Grid, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+            else
+            {
+                errorMessage = "Failed to play turn";
+                Console.WriteLine($"Error: {response.ReasonPhrase}");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred during play turn.";
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+}
