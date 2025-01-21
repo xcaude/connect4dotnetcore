@@ -14,14 +14,15 @@ namespace Connect4Game.Infrastructure.Models
             builder.Property(g => g.Status).IsRequired().HasMaxLength(20);
 
             builder.HasOne(g => g.Host)
-                   .WithMany(p => p.Games)
+                   .WithMany()
                    .HasForeignKey(g => g.HostId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // builder.HasOne(g => g.Guest)
-            //        .WithMany()
-            //        .HasForeignKey(g => g.GuestId)
-            //        .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(g => g.Guest)
+                    .WithMany()
+                    .HasForeignKey(g => g.GuestId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(false);
             builder.HasOne(g => g.CurrentTurn)
                    .WithMany()
                    .HasForeignKey(g => g.CurrentTurnId)

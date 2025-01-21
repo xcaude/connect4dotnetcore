@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Connect4Game.Infrastructure.Migrations
 {
     [DbContext(typeof(Connect4DbContext))]
-    [Migration("20250120165333_InitialCreate")]
+    [Migration("20250120221600_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -35,7 +35,6 @@ namespace Connect4Game.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GuestId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("HostId")
@@ -281,17 +280,16 @@ namespace Connect4Game.Infrastructure.Migrations
                     b.HasOne("Connect4Game.Domain.Models.Player", "Guest")
                         .WithMany()
                         .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Connect4Game.Domain.Models.Player", "Host")
-                        .WithMany("Games")
+                        .WithMany()
                         .HasForeignKey("HostId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Connect4Game.Domain.Models.Player", "Winner")
-                        .WithMany()
+                        .WithMany("Games")
                         .HasForeignKey("WinnerId");
 
                     b.Navigation("CurrentTurn");

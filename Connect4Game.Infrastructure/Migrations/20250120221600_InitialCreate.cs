@@ -165,7 +165,7 @@ namespace Connect4Game.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     HostId = table.Column<string>(type: "TEXT", nullable: false),
-                    GuestId = table.Column<string>(type: "TEXT", nullable: false),
+                    GuestId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Grid = table.Column<string>(type: "TEXT", nullable: false),
                     Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
@@ -186,7 +186,7 @@ namespace Connect4Game.Infrastructure.Migrations
                         column: x => x.GuestId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Games_AspNetUsers_HostId",
                         column: x => x.HostId,
