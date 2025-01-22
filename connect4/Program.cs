@@ -1,6 +1,6 @@
 using Connect4Game.Infrastructure.Context;
 using Connect4Game.Common.Dto;
-using Connect4Game.Domain.Models;
+using Connect4Game.Domain.Model;
 
 using System.Text;
 using Microsoft.AspNetCore.Identity;
@@ -55,6 +55,15 @@ builder.Services.AddAuthentication(option  => {
     };
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -102,6 +111,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

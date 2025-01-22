@@ -1,11 +1,9 @@
-
-
 using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
-using Connect4Game.Domain.Models;
 using Connect4Game.Common.Dto;
+using Connect4Game.Domain.Model;
 using Connect4Game.Infrastructure.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,12 +57,15 @@ public class PlayersController : ControllerBase
     public async Task<IActionResult> Authenticate([FromBody] LoginDto loginDto)
     {   
         var player = await _userManager.FindByNameAsync(loginDto.Login);
+        
         if (player == null || !await _userManager.CheckPasswordAsync(player, loginDto.Password))
         {
+        
             return Unauthorized("Invalid login or password");
         }
         
         var token = GenerateJwtToken(player);
+        
         return Ok(new { Token = token });
     }
    

@@ -7,31 +7,43 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
-<h3>Login</h3>
+<link rel="stylesheet" href="css/login.css" />
 
-<div>
-    <label>Login:</label>
-    <input @bind="login" />
-</div>
-<div>
-    <label>Password:</label>
-    <input type="password" @bind="password" />
-</div>
-<button @onclick="Authenticate">Login</button>
+<div class="login-container">
+    <h3>Login</h3>
 
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-    <p style="color:red">@errorMessage</p>
-}
+    <div>
+        <label>Login:</label>
+        <input @bind="login" />
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" @bind="password" />
+    </div>
+    <button @onclick="Authenticate">Login</button>
+    <button @onclick="Register">Register</button>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <p class="error-message">@errorMessage</p>
+    }
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <p class="success-message">@successMessage</p>
+    }
+</div>
 
 @code {
     private string login;
     private string password;
     private string errorMessage;
+    private string successMessage;
 
     private async Task Authenticate()
     {
         errorMessage = string.Empty;
+        successMessage = string.Empty;
 
         var loginDto = new { Login = login, Password = password };
         var jsonContent = new StringContent(JsonSerializer.Serialize(loginDto), Encoding.UTF8, "application/json");
@@ -49,13 +61,21 @@
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var token = JsonSerializer.Deserialize<JwtToken>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    var token = JsonSerializer.Deserialize<JwtToken>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                // Store the token in local storage
-                await JS.InvokeVoidAsync("localStorage.setItem", "jwtToken", token.Token);
+                    // Store the token in local storage
+                    await JS.InvokeVoidAsync("localStorage.setItem", "jwtToken", token.Token);
 
-                // Redirect to the game list page
-                NavigationManager.NavigateTo("/games");
+                    // Redirect to the game list page
+                    NavigationManager.NavigateTo("/games");
+                }
+                else
+                {
+                    errorMessage = "Invalid response content";
+                    Console.WriteLine("Error: Response content is empty or invalid.");
+                }
             }
             else
             {
@@ -67,6 +87,64 @@
         {
             errorMessage = "An error occurred during authentication.";
             Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+
+    private async Task Register()
+    {
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+
+        var loginDto = new { Login = login, Password = password };
+        var jsonContent = new StringContent(JsonSerializer.Serialize(loginDto), Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:5034/api/Players/register")
+        {
+            Content = jsonContent
+        };
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        try
+        {
+            var response = await Http.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    var token = JsonSerializer.Deserialize<JwtToken>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    // Store the token in local storage
+                    await JS.InvokeVoidAsync("localStorage.setItem", "jwtToken", token.Token);
+
+                    // Display success message
+                    successMessage = "Registration Success!";
+
+                    // Redirect to the game list page
+                    NavigationManager.NavigateTo("/games");
+                }
+                else
+                {
+                    // Handle the case where the response content is empty or invalid
+                    successMessage = "Registration Success!";
+                    Console.WriteLine("Warning: Response content is empty or invalid, but registration succeeded.");
+                }
+            }
+            else
+            {
+                errorMessage = "Registration failed";
+                Console.WriteLine($"Error: {response.ReasonPhrase}");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the exception but do not display the error message if registration succeeded
+            Console.WriteLine($"Exception: {ex.Message}");
+            if (string.IsNullOrEmpty(successMessage))
+            {
+                errorMessage = "An error occurred during registration.";
+            }
         }
     }
 

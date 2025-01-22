@@ -1,5 +1,5 @@
 using Connect4Game.Domain.Contracts;
-using Connect4Game.Domain.Models;
+using Connect4Game.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Connect4Game.Infrastructure.Context;
 

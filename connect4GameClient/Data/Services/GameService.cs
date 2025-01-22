@@ -1,5 +1,5 @@
 using System.Net.Http;
-using Connect4Game.Domain.Models;
+using Connect4Game.Domain.Model;
 using Connect4Game.Common;
 
 namespace connect4GameClient.Data.Services;

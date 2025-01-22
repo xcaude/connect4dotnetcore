@@ -3,11 +3,13 @@
 @using System.Net.Http.Headers
 @using System.Text.Json
 @using System.Text
-@using Connect4Game.Domain.Models
+@using Connect4Game.Domain.Model
 @using Connect4Game.Common.Dto
 @inject HttpClient Http
 @inject IJSRuntime JS
 @inject NavigationManager NavigationManager
+
+<link rel="stylesheet" href="css/game.css" />
 
 <h3>Connect4 Game</h3>
 
@@ -17,36 +19,44 @@
 }
 else
 {
-    <div>
-        <p>Game: @game.Name</p>
-        <p>Status: @game.Status</p>
-        <p>Host: @game.Host.UserName</p>
-        <p>Guest: @game.Guest?.UserName ?? "Awaiting Guest"</p>
-        <p>Current Turn: @game.CurrentTurn.UserName</p>
-    </div>
-    <div>
-        @for (int row = 0; row < game.Grid.Rows; row++)
+    <div class="game-details">
+        <p class="game-name">Game: @game.Name</p>
+        <p class="status">Status: @game.Status</p>
+        <p class="username">Host: @game.Host.UserName</p>
+        <p class="username">Guest: @(game.Guest?.UserName ?? "Awaiting Guest")</p>
+        <p class="current-turn @(game.CurrentTurn == game.Host ? "current-turn-host" : "current-turn-guest")">
+            Current Turn: @(game.CurrentTurn?.UserName ?? "Awaiting Guest")
+        </p>
+        @if (game.Winner != null)
         {
-            <div>
-                @for (int col = 0; col < game.Grid.Columns; col++)
+            <p class="username">Winner: @game.Winner.UserName</p>
+        }
+    </div>
+    <div class="grid-container">
+        @for (int row = 0; row < 6; row++)
+        {
+            <div class="grid-row">
+                @for (int col = 0; col < 7; col++)
                 {
-                    var cell = game.Grid.Cells.First(c => c.Row == row && c.Column == col);
-                    <button @onclick="() => PlayTurn(col)">
-                        @cell.Token?.Color ?? "Empty"
-                    </button>
+                    var cellIndex = row * 7 + col;
+                    var cell = game.Grid[cellIndex];
+                    int capturedCol = col; // Capture the current value of col
+                    <div class="grid-cell" @onclick="() => PlayTurn(capturedCol)">
+                        @(cell == '0' ? "Empty" : (cell == 'R' ? "Red" : "Yellow"))
+                    </div>
                 }
             </div>
         }
     </div>
     @if (!string.IsNullOrEmpty(errorMessage))
     {
-        <p style="color:red">@errorMessage</p>
+        <p class="error-message">@errorMessage</p>
     }
 }
 
 @code {
     [Parameter] public int gameId { get; set; }
-    private Game game;
+    private Connect4Game.Domain.Model.Game game;
     private string jwtToken;
     private string errorMessage;
 
@@ -65,10 +75,11 @@ else
         if (response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
-            game = JsonSerializer.Deserialize<Game>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            game = JsonSerializer.Deserialize<Connect4Game.Domain.Model.Game>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         else
         {
+            errorMessage = "Failed to load game details";
             Console.WriteLine($"Error: {response.ReasonPhrase}");
         }
     }
@@ -95,7 +106,7 @@ else
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var gridDto = JsonSerializer.Deserialize<GridDto>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                game.Grid = JsonSerializer.Deserialize<Grid>(gridDto.Grid, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                game.Grid = gridDto.Grid;
             }
             else
             {

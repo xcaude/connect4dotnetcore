@@ -3,16 +3,22 @@
 @using System.Net.Http.Headers
 @using System.Text.Json
 @using System.Text
-@using Connect4Game.Domain.Models
+@using System.IdentityModel.Tokens.Jwt
+@using Connect4Game.Domain.Model
 @using Connect4Game.Common.Dto
+
 @inject HttpClient Http
 @inject IJSRuntime JS
 @inject NavigationManager NavigationManager
 
-<h3>Game List</h3>
+<link rel="stylesheet" href="css/games.css" />
 
-<div style="display: flex;">
-    <div style="flex: 1;">
+<div class="game-list-container">
+    <div class="game-list">
+        <h3>
+            <span class="game">Game</span>
+            <span class="list">List</span>
+        </h3>
         @if (games == null)
         {
             <p><em>Loading...</em></p>
@@ -23,14 +29,31 @@
                 @foreach (var game in games)
                 {
                     <li>
-                        @game.Name - @game.Status - Host: @game.Host - Guest: @game.Guest
-                        <button @onclick="() => PlayGame(game.Id)">Play</button>
+                        <div class="game-details">
+                            <span>@game.Name</span>
+                            <span>Host: @game.Host</span>
+                            <span>Guest: @game.Guest</span>
+                            <span>currentUser : @currentUser</span>
+                        </div>
+
+
+
+                        <td>
+                            @if (game.Host == currentUser || game.Guest == currentUser)
+                            {
+                                <button class="play-button" @onclick="() => PlayGame(game.Id)">Play</button>
+                            }
+                            else if (game.Status == "Awaiting Guest")
+                            {
+                                <button @onclick="() => JoinGame(game.Id)">Join</button>
+                            }
+                        </td>
                     </li>
                 }
             </ul>
         }
     </div>
-    <div style="flex: 1; margin-left: 20px;">
+    <div class="register-game">
         <h3>Register Game</h3>
         <div>
             <label>Name:</label>
@@ -50,9 +73,20 @@
     private string jwtToken;
     private string errorMessage;
 
+    private string currentUser;
+
+    private string GetUserFromJwt(string jwtToken)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jsonToken = handler.ReadToken(jwtToken) as JwtSecurityToken;
+        var userClaim = jsonToken?.Claims.FirstOrDefault(claim => claim.Type == System.Security.Claims.ClaimTypes.Name);
+        return userClaim?.Value;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         jwtToken = await JS.InvokeAsync<string>("localStorage.getItem", "jwtToken");
+        currentUser = GetUserFromJwt(jwtToken);
         await LoadGames();
     }
 
@@ -107,6 +141,25 @@
         {
             errorMessage = "An error occurred during game registration.";
             Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+
+    private async Task JoinGame(int gameId)
+    {
+        errorMessage = string.Empty;
+
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://localhost:5034/api/games/{gameId}/join");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+        var response = await Http.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo($"/game/{gameId}");
+        }
+        else
+        {
+            errorMessage = "Failed to join game";
+            Console.WriteLine($"Error: {response.ReasonPhrase}");
         }
     }
 

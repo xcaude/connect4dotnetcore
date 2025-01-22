@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Connect4Game.Domain.Models
+namespace Connect4Game.Domain.Model
 {
     /// <summary>
     /// Represents a player in the Connect 4 game.

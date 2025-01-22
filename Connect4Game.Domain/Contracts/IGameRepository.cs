@@ -1,4 +1,4 @@
-using Connect4Game.Domain.Models;
+using Connect4Game.Domain.Model;
 
 namespace Connect4Game.Domain.Contracts
 {

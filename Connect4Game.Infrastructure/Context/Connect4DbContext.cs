@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Connect4Game.Domain.Models;
+using Connect4Game.Domain.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Diagnostics;

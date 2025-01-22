@@ -1,11 +1,10 @@
 using Connect4Game.Common.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Connect4Game.Domain.Models;
+using Connect4Game.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Connect4Game.Infrastructure.Context;
-using Connect4Game.Common.DTOs;
 
 
 
@@ -80,6 +79,7 @@ public class GamesController : ControllerBase
             Name = dto.Name,
             Status = "Awaiting Guest",
             CurrentTurnId = userId!,
+            CurrentTurn = host,
             Grid = new string('0', 6 * 7)
         };
 
@@ -96,16 +96,27 @@ public class GamesController : ControllerBase
             if (user == null)
                 return Unauthorized();
 
-            var game = await _context.Games.FindAsync(gameId);
+            /*var game = await _context.Games.FindAsync(gameId);
+            if (game == null)
+                return NotFound();*/
+
+            var game = await _context.Games
+                .Include(g => g.Host)
+                .Include(g => g.Guest)
+                .Include(g => g.CurrentTurn)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
             if (game == null)
                 return NotFound();
 
             if (game.Status != "Awaiting Guest")
                 return BadRequest("Game is not available to join.");
 
+            Console.WriteLine("USER qui join : " + user);
             game.Guest = user;
             game.GuestId = userId!;
             game.Status = "In Progress";
+            //game.JoinGame(user);
+            _context.Entry(game).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok(game);
@@ -125,9 +136,13 @@ public class GamesController : ControllerBase
             if (game.Status != "In Progress")
                 return BadRequest("Game is not in progress.");
 
+            Console.WriteLine("USER qui play: " + user);
+
             if (game.CurrentTurn != user)
                 return Forbid("It is not your turn.");
             if(game.PlayTurn(user, request.Column)){
+                game.CurrentTurnId = game.CurrentTurn?.Id;
+                _context.Entry(game).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return Ok(new GridDto {
                 Grid = game.Grid

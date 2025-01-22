@@ -1,5 +1,5 @@
 
-namespace Connect4Game.Domain.Models
+namespace Connect4Game.Domain.Model
 {
     /// <summary>
     /// Represents a game of Connect 4.
@@ -49,10 +49,14 @@ namespace Connect4Game.Domain.Models
         /// </summary>
         public void StartGame()
         {
+            Console.WriteLine("GAME IS STARTED");
             if (Guest != null)
             {
                 Status = "In Progress";
                 CurrentTurn = Guest;
+                CurrentTurnId = Guest.Id;
+                Console.WriteLine("Current turn after start game : " + CurrentTurn);
+                Console.WriteLine("Current turn id after start game : " + CurrentTurnId);
             }
         }
         /// <summary>
@@ -61,14 +65,20 @@ namespace Connect4Game.Domain.Models
         /// <param name="guest">The guest player</param>
         public void JoinGame(Player guest)
         {
+            Console.WriteLine("GAME IS JOINED");
             if (Guest == null)
             {
+                
                 Guest = guest;
+                GuestId = guest.Id;
+                Console.WriteLine("Guest : " + Guest);
+                Console.WriteLine("GuestId : " + GuestId);
                 StartGame();
             }
         }
         public bool PlayTurn(Player player, int column)
         {
+            Console.WriteLine("PLAY TURN");
             if (Status == "In Progress" && player == CurrentTurn)
             {
                 char tokenColor = player == Host ? 'R' : 'Y';
@@ -84,7 +94,12 @@ namespace Connect4Game.Domain.Models
                 }
                 else
                 {
+                    Console.WriteLine("Host : " + Host);
+                    Console.WriteLine("Guest : " + Guest);
                     CurrentTurn = CurrentTurn == Host ? Guest : Host;
+                    CurrentTurnId = CurrentTurn?.Id;
+                    Console.WriteLine("CurrentTurnId : " + CurrentTurnId);
+                    Console.WriteLine("CurrentTurn : " + CurrentTurn);
                 }
                 return true;
             }
@@ -93,9 +108,23 @@ namespace Connect4Game.Domain.Models
         }
         private void DropToken(int column, char tokenColor)
         {
+
+            Console.WriteLine("Column : " + column);
+            Console.WriteLine("TokenColor : " + tokenColor);
+
+            if (column < 0 || column >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(column), "Column index is out of range.");
+            }
+
             for (int row = Rows - 1; row >= 0; row--)
             {
                 int index = row * Columns + column;
+                if (index < 0 || index >= Grid.Length)
+                {
+                    throw new IndexOutOfRangeException("Calculated index is out of range.");
+                }
+
                 if (Grid[index] == '0')
                 {
                     var gridArray = Grid.ToCharArray();

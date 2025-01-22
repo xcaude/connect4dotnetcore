@@ -4273,7 +4273,6 @@
       "Connect4Game.Domain >= 1.0.0",
       "Connect4Game.Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.11",
-      "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.12",
       "Microsoft.AspNetCore.OpenApi >= 8.0.10",
       "Microsoft.EntityFrameworkCore >= 9.0.1",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.1",
@@ -4285,19 +4284,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/tiliphou/.nuget/packages/": {}
+    "C:\\Users\\thiba\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/connect4.csproj",
+      "projectUniqueName": "C:\\Users\\thiba\\connect4dotnetcore\\connect4\\connect4.csproj",
       "projectName": "connect4",
-      "projectPath": "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/connect4.csproj",
-      "packagesPath": "/Users/tiliphou/.nuget/packages/",
-      "outputPath": "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/obj/",
+      "projectPath": "C:\\Users\\thiba\\connect4dotnetcore\\connect4\\connect4.csproj",
+      "packagesPath": "C:\\Users\\thiba\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thiba\\connect4dotnetcore\\connect4\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/tiliphou/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\thiba\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4309,14 +4308,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/Connect4Game.Common/Connect4Game.Common.csproj": {
-              "projectPath": "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/Connect4Game.Common/Connect4Game.Common.csproj"
+            "C:\\Users\\thiba\\connect4dotnetcore\\Connect4Game.Common\\Connect4Game.Common.csproj": {
+              "projectPath": "C:\\Users\\thiba\\connect4dotnetcore\\Connect4Game.Common\\Connect4Game.Common.csproj"
             },
-            "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/Connect4Game.Domain/Connect4Game.Domain.csproj": {
-              "projectPath": "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/Connect4Game.Domain/Connect4Game.Domain.csproj"
+            "C:\\Users\\thiba\\connect4dotnetcore\\Connect4Game.Domain\\Connect4Game.Domain.csproj": {
+              "projectPath": "C:\\Users\\thiba\\connect4dotnetcore\\Connect4Game.Domain\\Connect4Game.Domain.csproj"
             },
-            "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/Connect4Game.Infrastructure/Connect4Game.Infrastructure.csproj": {
-              "projectPath": "/Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/Connect4Game.Infrastructure/Connect4Game.Infrastructure.csproj"
+            "C:\\Users\\thiba\\connect4dotnetcore\\Connect4Game.Infrastructure\\Connect4Game.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\thiba\\connect4dotnetcore\\Connect4Game.Infrastructure\\Connect4Game.Infrastructure.csproj"
             }
           }
         }
@@ -4339,10 +4338,6 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[8.0.11, )"
-          },
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-            "target": "Package",
-            "version": "[8.0.12, )"
           },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
@@ -4398,7 +4393,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

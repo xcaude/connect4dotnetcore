@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Connect4Game.Domain.Models;
+using Connect4Game.Domain.Model;
 
 namespace Connect4Game.Infrastructure.Models
 {
