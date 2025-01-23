@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h3 {
+    color: #333;
+    text-align: center;
+}
+
+.game-details {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-details p {
+    margin: 5px 0;
+}
+
+.game-details .game-name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.game-details .status,
+.game-details .username {
+    font-size: 0.8em;
+}
+
+.game-details .current-turn-host {
+    color: red;
+    text-shadow: 
+        -1px -1px 0 #000,  
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000; /* Black text outline */
+}
+
+.game-details .current-turn-guest {
+    color: yellow;
+    text-shadow: 
+        -1px -1px 0 #000,  
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000; /* Black text outline */
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #808080; /* Grey background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.grid-row {
+    display: flex;
+}
+
+.grid-cell {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-size: 0.5em; /* Reduced font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.grid-cell.empty-cell {
+    background-color: #fff;
+}
+
+.grid-cell.red-cell {
+    background-color: red;
+}
+
+.grid-cell.yellow-cell {
+    background-color: yellow;
+}
+
+.grid-cell:hover {
+    background-color: #ddd;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}

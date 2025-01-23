@@ -37,9 +37,6 @@ Generated\
 # NPM Packages
 node_modules/
 
-# Publish output
-wwwroot/
-
 # Resharper
 _ReSharper.Caches/
 

@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.game-list-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.game-list {
+    flex: 1;
+    position: relative;
+    background: linear-gradient(to right, red 50%, yellow 50%);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+}
+
+.game-list h3 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5em;
+    color: black;
+    margin: 0;
+    position: absolute;
+}
+
+.game-list h3 .game {
+    left: 25%;
+    transform: translateX(-50%);
+}
+
+.game-list h3 .list {
+    left: 75%;
+    transform: translateX(-50%);
+}
+
+.game-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 60px; /* Adjust to avoid overlap with the title */
+}
+
+.game-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.game-list .game-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.5em; /* Reduced font size for the list of games */
+}
+
+.game-list .game-details span {
+    flex: 1;
+    text-align: center;
+}
+
+.game-list .play-button{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.game-list .join-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.game-list .play-button:hover
+{
+    background-color: #0056b3;
+}
+
+.game-list .join-button:hover {
+    background-color: #0056b3;
+}
+
+.register-game {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-game h3 {
+    text-align: center;
+    color: #333;
+}
+
+.register-game label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.register-game input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.register-game button {
+    width: calc(100% - 20px);
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.register-game button:hover {
+    background-color: #0056b3;
+}
