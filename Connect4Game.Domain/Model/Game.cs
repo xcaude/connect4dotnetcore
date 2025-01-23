@@ -78,7 +78,13 @@ namespace Connect4Game.Domain.Model
         }
         public bool PlayTurn(Player player, int column)
         {
+
             Console.WriteLine("PLAY TURN");
+            if (column < 0 || column >= Columns)
+            {
+                return false;
+            }
+
             if (Status == "In Progress" && player == CurrentTurn)
             {
                 char tokenColor = player == Host ? 'R' : 'Y';

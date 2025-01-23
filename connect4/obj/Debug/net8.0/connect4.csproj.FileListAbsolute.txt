@@ -214,7 +214,6 @@
 /Users/tiliphou/Documents/3A IR/Application n-tier/Connect4Game/connect4/bin/Debug/net8.0/Connect4Game.Common.pdb
 C:\Users\thiba\connect4dotnetcore\connect4\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\thiba\connect4dotnetcore\connect4\bin\Debug\net8.0\appsettings.json
-C:\Users\thiba\connect4dotnetcore\connect4\bin\Debug\net8.0\connect4.staticwebassets.runtime.json
 C:\Users\thiba\connect4dotnetcore\connect4\bin\Debug\net8.0\connect4.exe
 C:\Users\thiba\connect4dotnetcore\connect4\bin\Debug\net8.0\connect4.deps.json
 C:\Users\thiba\connect4dotnetcore\connect4\bin\Debug\net8.0\connect4.runtimeconfig.json

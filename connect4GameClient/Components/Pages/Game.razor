@@ -41,7 +41,7 @@ else
                     var cellIndex = row * 7 + col;
                     var cell = game.Grid[cellIndex];
                     int capturedCol = col; // Capture the current value of col
-                    <div class="grid-cell" @onclick="() => PlayTurn(capturedCol)">
+                    <div class="grid-cell @(cell == 'R' ? "red-cell" : cell == 'Y' ? "yellow-cell" : "empty-cell")" @onclick="() => PlayTurn(capturedCol)">
                         @(cell == '0' ? "Empty" : (cell == 'R' ? "Red" : "Yellow"))
                     </div>
                 }

@@ -35,9 +35,6 @@
                             <span>Guest: @game.Guest</span>
                             <span>currentUser : @currentUser</span>
                         </div>
-
-
-
                         <td>
                             @if (game.Host == currentUser || game.Guest == currentUser)
                             {
@@ -45,7 +42,7 @@
                             }
                             else if (game.Status == "Awaiting Guest")
                             {
-                                <button @onclick="() => JoinGame(game.Id)">Join</button>
+                                <button class="join-button" @onclick="() => JoinGame(game.Id)">Join</button>
                             }
                         </td>
                     </li>

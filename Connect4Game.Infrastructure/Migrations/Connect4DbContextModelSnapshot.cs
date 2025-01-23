@@ -17,7 +17,7 @@ namespace Connect4Game.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
 
-            modelBuilder.Entity("Connect4Game.Domain.Models.Game", b =>
+            modelBuilder.Entity("Connect4Game.Domain.Model.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,7 +64,7 @@ namespace Connect4Game.Infrastructure.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("Connect4Game.Domain.Models.Player", b =>
+            modelBuilder.Entity("Connect4Game.Domain.Model.Player", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -266,27 +266,27 @@ namespace Connect4Game.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Connect4Game.Domain.Models.Game", b =>
+            modelBuilder.Entity("Connect4Game.Domain.Model.Game", b =>
                 {
-                    b.HasOne("Connect4Game.Domain.Models.Player", "CurrentTurn")
+                    b.HasOne("Connect4Game.Domain.Model.Player", "CurrentTurn")
                         .WithMany()
                         .HasForeignKey("CurrentTurnId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Connect4Game.Domain.Models.Player", "Guest")
+                    b.HasOne("Connect4Game.Domain.Model.Player", "Guest")
                         .WithMany()
                         .HasForeignKey("GuestId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Connect4Game.Domain.Models.Player", "Host")
+                    b.HasOne("Connect4Game.Domain.Model.Player", "Host")
                         .WithMany()
                         .HasForeignKey("HostId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Connect4Game.Domain.Models.Player", "Winner")
-                        .WithMany("Games")
+                    b.HasOne("Connect4Game.Domain.Model.Player", "Winner")
+                        .WithMany()
                         .HasForeignKey("WinnerId");
 
                     b.Navigation("CurrentTurn");
@@ -309,7 +309,7 @@ namespace Connect4Game.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Connect4Game.Domain.Models.Player", null)
+                    b.HasOne("Connect4Game.Domain.Model.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -318,7 +318,7 @@ namespace Connect4Game.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Connect4Game.Domain.Models.Player", null)
+                    b.HasOne("Connect4Game.Domain.Model.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -333,7 +333,7 @@ namespace Connect4Game.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Connect4Game.Domain.Models.Player", null)
+                    b.HasOne("Connect4Game.Domain.Model.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -342,16 +342,11 @@ namespace Connect4Game.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Connect4Game.Domain.Models.Player", null)
+                    b.HasOne("Connect4Game.Domain.Model.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Connect4Game.Domain.Models.Player", b =>
-                {
-                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }

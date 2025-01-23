@@ -18,7 +18,6 @@ namespace Connect4Game.Domain.Model
         /// <summary>
         /// Gets or sets the list of games the player has played.
         /// </summary>
-        public List<Game> Games { get; set; } = new List<Game>();
         /// <summary>
         /// Gets or sets the list of wins the player has.
         /// </summary>

@@ -25,7 +25,7 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> ListAvailableGames()
         {
             var games = await _context.Games
-                .Where(g => g.Status == "Awaiting Guest")
+                .Where(g => g.Status == "Awaiting Guest" || g.Status == "In Progress" && (g.HostId == User.FindFirstValue(ClaimTypes.NameIdentifier) || g.GuestId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
                 .Select(g => new ListedGameDto
                 { 
                     Id = g.Id,
@@ -129,7 +129,11 @@ public class GamesController : ControllerBase
             if (user == null)
                 return Unauthorized();
 
-            var game = await _context.Games.FindAsync(gameId);
+            var game = await _context.Games
+                .Include(g => g.Host)
+                .Include(g => g.Guest)
+                .Include(g => g.CurrentTurn)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
             if (game == null)
                 return NotFound();
 
@@ -155,7 +159,10 @@ public class GamesController : ControllerBase
         [HttpGet("{gameId}")]
         public async Task<IActionResult> GetGameDetails(int gameId)
         {
-            var game = await _context.Games.FindAsync(gameId);
+            var game = await _context.Games
+                .Include(g => g.Host)
+                .Include(g => g.Guest)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
             if (game == null)
                 return NotFound();
 
